@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+  <!-- css -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <title>Dashboard</title>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Twofoctor</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="#">{{ user }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout/">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/register/">Signup</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login/">Login</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Rest of your content -->
+  <div class="container mt-5">
+    {% if user.is_authenticated %}
+    {% if user.profile.email_verified %}
+    <!-- Content for authenticated users with verified email -->
+    {% else %}
+    <!-- Content for authenticated users with unverified email -->
+    {% endif %}
+    <h2>Welcome to The Home Page</h2>
+  
+    <p>Here is your account information:</p>
+    <ul>
+      <li><strong>Name:</strong> {{ user }} {{ user.last_name }}</li>
+      <!-- <li><strong>Email:</strong>  {{ decrypted_email}}</li> -->
+      <li><strong>Date Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</li>
+      <li><strong>Last Login:</strong> {{ user.last_login|date:"F d, Y" }} at {{ user.last_login|date:"H:i A" }}</li>
+    </ul>
+    {% if device_info %}
+    <!-- <h2>Device Information:</h2>
+    <p>Latitude: {{ device_info.latitude }}</p>
+    <p>Longitude: {{ device_info.longitude }}</p>
+    <p>IP Address: {{ device_info.ip_address }}</p> -->
+    <!-- <p>Location : {{ device_info.location_name }}</p> -->
+    <!-- <p>counrty : {{ decrypted_location }}</p> -->
+  {% else %}
+  
+  {% endif %}
+  </div>
+
+  {% else %}
+
+  <div class="container mt-5">
+    <h2>Welcome to The Home Page</h2>
+    <p>Please <a href="/register/">signup</a> or <a href="/login/">login</a></p>
+  </div>
+  {% endif %}
+
+  <!-- Bootstrap JS (Optional if you need it) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pzjw7f+ua9S6J0nX3GTEs5n6KKMDZ+PBm16K7Jl9GXnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
